@@ -32,6 +32,7 @@ select max(salary) as '현재 최고 연봉', min(salary) as '현재 최저 연�
 
 -- 문제6.
 -- 현재, 근무중인 사원 중 나이가 제일 어린 사원과 제일 많은 사원의 나이를 각각 출력하세요.
-select date_format(curdate(), '%Y') - date_format(max(birth_date), '%Y'), 
-		date_format(curdate(), '%Y') - date_format(min(birth_date), '%Y')
-	from employees;
+select date_format(curdate(), '%Y') - date_format(max(e.birth_date), '%Y') as '나이가 제일 어린 사원', 
+		date_format(curdate(), '%Y') - date_format(min(e.birth_date), '%Y') as '나이가 제일 많은 사원'
+	from employees e, salaries s
+    where e.emp_no = s.emp_no and s.to_date like '9999%';
