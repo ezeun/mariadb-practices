@@ -121,3 +121,19 @@ select a.dept_name, avg(d.salary)
     and c.title = 'Engineer'
     group by a.dept_name
     order by avg(d.salary) desc;
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
