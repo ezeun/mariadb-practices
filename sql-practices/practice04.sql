@@ -9,7 +9,8 @@ select count(*)
     where a.emp_no = b.emp_no
     and b.to_date  = '9999-01-01' 
     and b.salary >= (select avg(s.salary)
-						from salaries s);
+						from salaries s
+                        where s.to_date  = '9999-01-01' );
     
 -- 문제2. 
 -- 현재, 각 부서별로 최고의 급여를 받는 사원의 사번, 이름, 부서 급여을 조회하세요. 단 조회결과는 급여의 내림차순으로 정렬합니다.
@@ -73,11 +74,29 @@ select a.emp_no, concat(a.first_name,' ',a.last_name) as name, b.salary
     
 -- 문제4.
 -- 현재, 사원들의 사번, 이름, 그리고 매니저 이름과 부서 이름을 출력해 보세요. -- 매니저이름???????????
-select a.emp_no, concat(a.first_name,' ',a.last_name) as name, b.dept_name
-	from employees a, departments b, dept_manager c
-    where a.emp_no = c.emp_no
+
+select a.emp_no, concat(a.first_name,' ',a.last_name) as e_name, b.name as m_name, c.dept_name
+	from employees a, 
+		(select concat(a.first_name,' ',a.last_name) as name, b.dept_no
+			from employees a, dept_manager b
+			where a.emp_no = b.emp_no
+			and b.to_date = '9999-01-01') b,
+		departments c, dept_emp d 
+	where a.emp_no = d.emp_no
     and b.dept_no = c.dept_no
-    and c.to_date = '9999-01-01';
+    and c.dept_no = d.dept_no
+    and d.to_date = '9999-01-01';
+
+
+select a.emp_no, a.first_name, b.first_name, c.dept_name
+from employees a, (select a.first_name, b.dept_no
+                   from employees a, dept_manager b
+                   where a.emp_no = b.emp_no
+                   and b.to_date = '9999-01-01'
+                   ) b, departments c, dept_emp d
+where a.emp_no = d.emp_no and c.dept_no = d.dept_no and b.dept_no = c.dept_no
+and d.to_date = '9999-01-01';
+
 
 -- 문제5.
 -- 현재, 평균급여가 가장 높은 부서의 사원들의 사번, 이름, 직책 그리고 급여를 조회하고 급여 순으로 출력하세요.
@@ -86,6 +105,9 @@ select a.emp_no, concat(a.first_name,' ',a.last_name) as name, c.title, d.salary
     where a.emp_no = b.emp_no
     and a.emp_no = c.emp_no
     and a.emp_no = d.emp_no
+	and b.to_date = '9999-01-01'
+	and c.to_date = '9999-01-01'
+	and d.to_date = '9999-01-01'
     and b.dept_no = (select a.dept_no
 						from dept_emp a, salaries b
 						where a.emp_no = b.emp_no
@@ -93,7 +115,7 @@ select a.emp_no, concat(a.first_name,' ',a.last_name) as name, c.title, d.salary
 						and b.to_date = '9999-01-01'
 						order by b.salary desc
 						limit 1)
-	order by d.salary;
+	order by d.salary desc;
 
 -- 문제6.
 -- 현재, 평균 급여가 가장 높은 부서의 이름 그리고 평균급여를 출력하세요.
