@@ -108,7 +108,7 @@ public class OrderDao {
 			String sql = "select no, user_no, number, status, payment, shipping"
 							+ "	from orders"
 							+ " where no = ? and user_no = ?"
-							+ "    order by id desc";
+							+ "    order by no desc";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. Parameter Binding  
@@ -121,13 +121,15 @@ public class OrderDao {
 			if (rs.next()) {
 				Long OrderNo = rs.getLong(1);
 				Long UserNo = rs.getLong(2);
-				String status = rs.getString(3);
-				int payment = rs.getInt(4);
-				String shipping = rs.getString(5);
+				String number = rs.getString(3);
+				String status = rs.getString(4);
+				int payment = rs.getInt(5);
+				String shipping = rs.getString(6);
 				
 				OrderVo vo = new OrderVo();
 				vo.setNo(OrderNo);				
 				vo.setUserNo(UserNo);
+				vo.setNumber(number);
 				vo.setStatus(status);
 				vo.setPayment(payment);
 				vo.setShipping(shipping);
@@ -136,7 +138,7 @@ public class OrderDao {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("error:" + e); 
 		} finally {
 			try {
 				if(rs != null)
@@ -186,7 +188,7 @@ public class OrderDao {
 				String title = rs.getString(5);
 				
 				OrderBookVo vo = new OrderBookVo();
-				vo.setOrderNo(orderNo);
+				vo.setOrderNo(OrderNo);
 				vo.setQuantity(quantity);
 				vo.setPrice(price);
 				vo.setBookNo(BookNo);
@@ -286,8 +288,8 @@ public class OrderDao {
 			Class.forName("org.mariadb.jdbc.Driver");
 	
 			// 2. 연결하기 
-			String url = "jdbc:mariadb://192.168.0.118:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
+			String url = "jdbc:mariadb://192.168.0.118:3306/bookmall";
+			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

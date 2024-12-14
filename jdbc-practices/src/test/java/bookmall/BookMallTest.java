@@ -86,7 +86,7 @@ public class BookMallTest {
 		mockOrderVo.setNumber("20240520-000012");
 		mockOrderVo.setPayment(82400);
 		mockOrderVo.setShipping("서울시 은평구 진관3로 77 구파발 래미안 926-801");
-		mockOrderVo.setStatus("배송준비");	
+		mockOrderVo.setStatus("배송준비");
 		orderDao.insert(mockOrderVo);
 		
 		// 주문책(2개)		
