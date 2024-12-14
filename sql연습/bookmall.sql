@@ -5,6 +5,7 @@ SELECT * FROM category;
 SELECT * FROM orders;
 SELECT * FROM orders_book;
 desc cart;
+desc orders;
 
 insert into user values (null, "이름", "이메일", "비번", "전번");
 

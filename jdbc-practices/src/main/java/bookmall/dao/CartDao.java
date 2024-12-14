@@ -60,9 +60,10 @@ public class CartDao {
 			conn = getConnection();
 			
 			// 3. Statement 준비하기
-			String sql = "select user_no, book_no, quantity, price"
-							+ "	from cart"
-							+ " where user_no = ?";
+			String sql = "select c.user_no, c.book_no, c.quantity, c.price, b.title"
+							+ "	from cart c, book b"
+							+ " where c.book_no = b.no"
+							+ " and user_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. Parameter Binding  
@@ -71,17 +72,19 @@ public class CartDao {
 			// 5. SQL 실행
 			rs = pstmt.executeQuery();
 			
-			if (rs.next()) {
+			while (rs.next()) {
 				Long userNo = rs.getLong(1);
 				Long bookNo = rs.getLong(2);
 				int quantity = rs.getInt(3);
 				int price = rs.getInt(4);
+				String title = rs.getString(5);
 				
 				CartVo vo = new CartVo();
 				vo.setUserNo(userNo);
 				vo.setBookNo(bookNo);
 				vo.setQuantity(quantity);
 				vo.setPrice(price);
+				vo.setBookTitle(title);
 				
 				result.add(vo); 
 			}

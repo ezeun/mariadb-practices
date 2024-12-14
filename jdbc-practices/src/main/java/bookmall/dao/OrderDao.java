@@ -180,7 +180,7 @@ public class OrderDao {
 			// 5. SQL 실행
 			rs = pstmt.executeQuery();
 			
-			if (rs.next()) {
+			while (rs.next()) {
 				Long OrderNo = rs.getLong(1);
 				int quantity = rs.getInt(2);
 				int price = rs.getInt(3);

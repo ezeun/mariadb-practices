@@ -77,7 +77,7 @@ public class CategoryDao {
 			// 5. SQL 실행
 			rs = pstmt.executeQuery();
 			
-			if (rs.next()) {
+			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
 				
