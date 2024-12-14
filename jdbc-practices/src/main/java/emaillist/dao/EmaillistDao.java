@@ -22,7 +22,7 @@ public class EmaillistDao {
 			
 			// 3. Statement 준비하기
 			String sql = "delete from emaillist"
-						+ "	where email = ?;";
+						+ "	where email = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. Parameter Binding  

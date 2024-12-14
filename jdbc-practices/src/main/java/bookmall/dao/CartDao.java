@@ -60,9 +60,9 @@ public class CartDao {
 			conn = getConnection();
 			
 			// 3. Statement 준비하기
-			String sql = "select userNo, bookNo, quantity, price"
+			String sql = "select user_no, book_no, quantity, price"
 							+ "	from cart"
-							+ " where userNo = ?"
+							+ " where user_no = ?"
 							+ "    order by id desc";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -103,6 +103,40 @@ public class CartDao {
 		}
 		
 		return result;
+	}
+
+	public void deleteByUserNoAndBookNo(Long userNo, Long bookNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			conn = getConnection();
+			
+			// 3. Statement 준비하기
+			String sql = "delete from cart"
+						+ " where user_no = ? and book_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			// 4. Parameter Binding  
+			pstmt.setLong(1,userNo); 
+			pstmt.setLong(2,bookNo); 
+			
+			// 5. SQL 실행
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
 	}
 	
 	private Connection getConnection() throws SQLException {

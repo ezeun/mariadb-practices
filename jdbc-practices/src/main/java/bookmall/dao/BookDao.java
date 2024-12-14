@@ -52,6 +52,39 @@ public class BookDao {
 		}
 		
 	}
+
+	public void deleteByNo(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			conn = getConnection();
+			
+			// 3. Statement 준비하기
+			String sql = "delete from book"
+						+ " where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			// 4. Parameter Binding  
+			pstmt.setLong(1,no); 
+			
+			// 5. SQL 실행
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -69,6 +102,5 @@ public class BookDao {
 		
 		return conn;
 	}
-
 
 }
