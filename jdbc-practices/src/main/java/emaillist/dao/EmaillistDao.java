@@ -146,7 +146,7 @@ public class EmaillistDao {
 			// 5. SQL 실행
 			rs = pstmt.executeQuery();
 			
-			if (rs.next()) {
+			while (rs.next()) {
 				Long id = rs.getLong(1);
 				String firstName = rs.getString(2);
 				String lastName = rs.getString(3);
